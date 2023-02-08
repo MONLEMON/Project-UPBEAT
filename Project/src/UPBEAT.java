@@ -22,8 +22,4 @@ public abstract class UPBEAT {
     class Player{
 
     }
-    class Opponent{
-    }
-    class OpPos extends Opponent{
-    }
 }
