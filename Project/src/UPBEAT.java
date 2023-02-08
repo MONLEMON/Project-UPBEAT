@@ -1,4 +1,4 @@
-public abstract class UPBEAT {
+public  class UPBEAT {
     boolean owned;
     int rows;
     int cols;
@@ -14,12 +14,24 @@ public abstract class UPBEAT {
             return -1;
         }else return 1;
     }
-
+    class ActionCommands {
+        void done(){
+        }
+        void relocate(){
+        }
+        void move(){
+        }
+        void invest(){
+        }
+        void collect(){
+        }
+        void shoot(){
+        }
+    }
     class City{
     }
     class CityCenter extends City{
     }
     class Player{
-
     }
 }
