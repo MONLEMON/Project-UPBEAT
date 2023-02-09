@@ -1,3 +1,4 @@
+import java.security.SecureRandom;
 public  class UPBEAT {
  /**ConfigurationFile**/
     int m=20;
@@ -13,21 +14,23 @@ public  class UPBEAT {
     int interest_pct=5;
   /**-----------------**/
     boolean owned;
+    int row;
+    int col;
+    int money;
     String rows(int m){
         return "Have "+m+" rows in territory";
     }
     String cols(int n){
         return "Have "+n+" rows in territory";
     }
-    void budget(){
-        System.out.println("Money remain" + money);
+    int Random(){
+        SecureRandom rand = new SecureRandom();
+        int upperbound = 1000;
+        int int_random = rand.nextInt(upperbound);
+        return int_random;
     }
-    int deposit(int row,int col){
-        if(owned){
-            return -1;
-        }else return 1;
-    }
-    class ActionCommands extends UPBEAT {
+
+    class ActionCommands extends Player {
         void done(){
         }
         void relocate(){
@@ -41,25 +44,31 @@ public  class UPBEAT {
         void shoot(){
         }
     }
-    class ConfigurationFile {
-
-    }
     class City extends UPBEAT{
-
+        int maxdeposit(){
+            return max_dep;
+        };
+        int deposit(int row,int col){
+            if(owned){
+                return -1;
+            }else return 1;
+        }
     }
     class CityCenter extends City{
     }
-    class Player extends UPBEAT{
-        int row;
-        int col;
+    class Citycrew extends City{
         String currows(){
             return "City crew in"+row+"row";
         }
         String curcols(){
             return "City crew in"+col+"col";
         }
+    }class Player extends UPBEAT{
         String Pos(){
             return "Position is row" + row + "cols" + col;
+        }
+        String budget(){
+            return "Money remaining"+money;
         }
     }
 }
