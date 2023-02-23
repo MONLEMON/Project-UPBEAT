@@ -20,7 +20,7 @@ public class ParserPlans implements Parser {
             throw new SyntaxError("Can't do this");
         }
         return s;
-    }
+    }@Override
     public Statement parseStatement() throws LexicalError, SyntaxError, ParseException {
         while (tkz.peek("if")) {
             tkz.consume();
@@ -40,34 +40,58 @@ public class ParserPlans implements Parser {
         }
         return parseActionCommand();
     }
-
+    @Override
     public Statement parseIfStatement() throws LexicalError, SyntaxError, ParseException {
         tkz.consume("if");
         tkz.consume("(");
         parseExpression();
-
         return null;
     }
+    @Override
     public Statement parseWhileStatement(){
         return null;
     }
+    @Override
     public Statement parseBlockStatement(){
         return null;
     }
-    public Statement parseAssignStatement(){
+    @Override
+    public Statement parseAssignStatement() throws LexicalError, SyntaxError, ParseException {
+        Expression v = parseExpression();
         return null;
     }
-    public Statement parseActionCommand(){
+    @Override
+    public Statement parseActionCommand() throws LexicalError, SyntaxError {
+        while (tkz.peek("done")) {
+            tkz.consume("done");
+            return parseBlockStatement();
+        }
+        while (tkz.peek("relocate")) {
+            tkz.consume("relocate");
+            return parseBlockStatement();
+        }
+        while (tkz.peek("move")) {
+            tkz.consume("move");
+            return parseMoveCommand();
+        }
+        while (tkz.peek("collect")) {
+            tkz.consume("collect");
+            return parseRegionCommand();
+        }
+        while (tkz.peek("invest")) {
+            tkz.consume("invest");
+            return parseRegionCommand();
+        }return null;
 
     }
     public Statement parseMoveCommand(){
-
+        return null;
     }
     public Statement parseRegionCommand(){
-
+        return null;
     }
     public Statement parseDirection(){
-
+        return null;
     }
 
     @Override
@@ -92,7 +116,6 @@ public class ParserPlans implements Parser {
     }
 
     @Override
-
     public Expression parseTerm() throws SyntaxError, LexicalError, ParseException {
         Expression v = parseFactor();
         while (tkz.peek("%")) {
@@ -147,9 +170,9 @@ public class ParserPlans implements Parser {
         }
     }
 
+    @Override
     public  Expression parseInfoExpression(){
     return null;
-
     }
     private boolean isNumber(String s) {
         char[] chars = s.toCharArray();
