@@ -44,15 +44,29 @@ public class ParserPlans implements Parser {
     public Statement parseIfStatement() throws LexicalError, SyntaxError, ParseException {
         tkz.consume("if");
         tkz.consume("(");
-        parseExpression();
+        Expression Expr = parseExpression();
+        tkz.consume(")");
+        Statement s1 = parseStatement();
+        tkz.consume("else");
+        Statement s2 = parseStatement();
+        return new IfStatement(Expr,s1,s2);
+    }
+    @Override
+    public Statement parseWhileStatement() throws LexicalError, SyntaxError, ParseException {
+        tkz.consume("while");
+        tkz.consume("(");
+        Expression Expr = parseExpression();
+        tkz.consume(")");
+        Statement s1 = parseStatement();
         return null;
     }
     @Override
-    public Statement parseWhileStatement(){
-        return null;
-    }
-    @Override
-    public Statement parseBlockStatement(){
+    public Statement parseBlockStatement() throws LexicalError, SyntaxError, ParseException {
+        tkz.consume("{");
+        while (tkz.peek("}")) {
+            tkz.consume();
+            return parseIfStatement();
+        }
         return null;
     }
     @Override
@@ -61,7 +75,7 @@ public class ParserPlans implements Parser {
         return null;
     }
     @Override
-    public Statement parseActionCommand() throws LexicalError, SyntaxError {
+    public Statement parseActionCommand() throws LexicalError, SyntaxError, ParseException {
         while (tkz.peek("done")) {
             tkz.consume("done");
             return parseBlockStatement();
@@ -71,7 +85,7 @@ public class ParserPlans implements Parser {
             return parseBlockStatement();
         }
         while (tkz.peek("move")) {
-            tkz.consume("move");
+
             return parseMoveCommand();
         }
         while (tkz.peek("collect")) {
@@ -84,8 +98,10 @@ public class ParserPlans implements Parser {
         }return null;
 
     }
-    public Statement parseMoveCommand(){
-        return null;
+    public Statement parseMoveCommand() throws LexicalError, SyntaxError {
+        tkz.consume("move");
+        Statement direction = parseDirection();
+        return new MoveCmd(direction);
     }
     public Statement parseRegionCommand(){
         return null;

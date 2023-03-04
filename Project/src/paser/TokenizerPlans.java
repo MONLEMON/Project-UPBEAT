@@ -50,7 +50,7 @@ class TokenizerPlans implements Tokenizer {
             for (pos++; pos < src.length() && isDigit(src.charAt(pos)); pos++)
                 s.append(src.charAt(pos));
         }
-        else if (c == '+' || c == '(' || c == ')' ||c == '-' ||c == '/' ||c == '*' ||c == '%'||c == '^') {
+        else if (c == '+' || c == '(' || c == ')' ||c == '-' ||c == '/' ||c == '*' ||c == '%'||c == '^'||c == '{'||c == '}') {
             s.append(c);
             pos++;
         }

@@ -9,13 +9,13 @@ interface Parser {
 
     Statement parseIfStatement() throws LexicalError, SyntaxError, ParseException;
 
-    Statement parseWhileStatement();
+    Statement parseWhileStatement() throws LexicalError, SyntaxError, ParseException;
 
-    Statement parseBlockStatement();
+    Statement parseBlockStatement() throws LexicalError, SyntaxError, ParseException;
 
     Statement parseAssignStatement() throws LexicalError, SyntaxError, ParseException;
 
-    Statement parseActionCommand() throws LexicalError, SyntaxError;
+    Statement parseActionCommand() throws LexicalError, SyntaxError, ParseException;
 
     Expression parseExpression() throws SyntaxError, LexicalError, ParseException;
     Expression parseTerm() throws SyntaxError, LexicalError, ParseException;
