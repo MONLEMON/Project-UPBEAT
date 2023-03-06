@@ -22,5 +22,5 @@ interface Parser {
     Expression parseFactor() throws SyntaxError, LexicalError, ParseException;
     Expression parsePower() throws SyntaxError, LexicalError, ParseException;
 
-    Expression parseInfoExpression();
+    Expression parseInfoExpression() throws LexicalError, SyntaxError, ParseException;
 }

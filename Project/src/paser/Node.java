@@ -33,6 +33,25 @@ class IntLit implements Expression {
         return new char[0];
     }
 }
+class InfoExpr implements Expression{
+    private infoExpr command;
+    private Direction direction;
+    @Override
+    public char[] prettyPrint() {
+        return new char[0];
+    }
+    @Override
+    public double eval(Map<String, Integer> bindings) throws EvalError {
+        return 0;
+    }
+    @Override
+    public void prettyPrint(StringBuilder s) {
+    }
+    InfoExpr(infoExpr command,Direction direction){
+        this.command = command;
+        this.direction = direction;
+    }
+}
 class Plan implements Node {
     LinkedList<Statement> Statement;
     Plan(){
@@ -59,8 +78,14 @@ class ConstructionPlan{
 interface Statement extends Node{
     boolean operate(HashMap<String, Integer> identifiers, LinkedList<GameAction> action, Player player);
 }
-class Direction{
-
+enum Direction{
+    UP,DOWN,UPLEFT,UPRIGHT,DOWNLEFT,DOWNRIGHT;
+}
+enum Region{
+    collect,invest
+}
+enum infoExpr{
+    nearby,opponent;
 }
 class Cmd implements Statement{
     private boolean TurnEnd ;
@@ -79,9 +104,47 @@ class Cmd implements Statement{
         return new char[0];
     }
 }
+class ATKCmd extends Cmd{
+    private Direction direction;
+    private Expression Expr;
+
+    ATKCmd(Direction direction,Expression Expr) {
+        super(false);
+        this.Expr = Expr;
+        this.direction = direction;
+    }
+    @Override
+    public boolean operate(HashMap<String, Integer> identifiers, LinkedList<GameAction> action, Player player) {
+        return false;
+    }
+
+}
+class RegionCmd extends Cmd{
+    private Expression Expr;
+    private Region command ;
+    RegionCmd(Region command, Expression Expr) {
+        super(false);
+        this.Expr = Expr;
+        this.command = command;
+    }
+    @Override
+    public boolean operate(HashMap<String, Integer> identifiers, LinkedList<GameAction> action, Player player) {
+        return false;
+    }
+}
+class RelocateCmd extends Cmd{
+
+    RelocateCmd() {
+        super(false);
+    }
+    @Override
+    public boolean operate(HashMap<String, Integer> identifiers, LinkedList<GameAction> action, Player player) {
+        return false;
+    }
+}
 class MoveCmd extends Cmd{
-    private Statement direction;
-    MoveCmd(Statement direction){
+    private Direction direction;
+    MoveCmd(Direction direction){
         super(false);
         this.direction = direction;
     }
