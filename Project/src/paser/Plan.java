@@ -5,8 +5,8 @@ import java.util.LinkedList;
 public class Plan implements Node {
     LinkedList<Statement> Statement;
 
-    public Plan() {
-        this.Statement = new LinkedList<Statement>();
+    public Plan(LinkedList<Statement> Statement) {
+        this.Statement =Statement;
     }
 
     void append(Statement st) {

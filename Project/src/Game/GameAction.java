@@ -1,4 +1,4 @@
-package paser;
+package Game;
 
 public class GameAction {
 

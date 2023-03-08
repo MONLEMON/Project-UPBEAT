@@ -22,7 +22,7 @@ class ConfigurationFile {
     static int interest_pct=5;
 }
 interface Count{
-
+    int count = 0;
 }
 
 class Game {
@@ -48,9 +48,6 @@ class ConstructionPlan{
     void setPlan(String Plan) throws LexicalError {
         Token = new TokenizerPlans(Plan);
     }
-    void Planer(){
-        Plan = new Plan();
-    }
 }
 
 class Board {
@@ -64,15 +61,16 @@ class Board {
 class Territory{
     int posX;
     int posY;
-    
+
 }
 class City {
     private Player Owner;
-
+    Player Owner(){
+        return Player.name;
+    }
 }
 class CityCrew extends City{
 
 }
 class CityCenter extends City{
-
 }

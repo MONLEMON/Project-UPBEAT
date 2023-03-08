@@ -2,6 +2,7 @@ package paser;
 
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class ParserPlans implements Parser {
@@ -10,33 +11,34 @@ public class ParserPlans implements Parser {
     private Map<String,Integer> Cal = new HashMap();
     public ParserPlans(Tokenizer tkz) {
         this.tkz = tkz;
-
     }
+
     @Override
-    public Plan parse() throws LexicalError, SyntaxError, ParseException, EvalError {
-        Plan s = new Plan();
+    public Plan parse() throws LexicalError, SyntaxError, EvalError, ParseException {
+        Plan plan = parser();
+        if(tkz.hasNextToken()) throw new SyntaxError("Error");
+        return plan;
+    }
+
+    public Plan parser() throws LexicalError, SyntaxError, ParseException, EvalError {
+        LinkedList<Statement> statements = new LinkedList<>();
         while(tkz.hasNextToken()){
             parseStatement();
-            throw new SyntaxError("Can't do this");
         }
-        return s;
+        return new Plan(statements);
     }
     @Override
     public Statement parseStatement() throws LexicalError, SyntaxError, ParseException {
         while (tkz.peek("if")) {
-            tkz.consume();
             return parseIfStatement();
         }
         while (tkz.peek("while")) {
-            tkz.consume();
             return parseWhileStatement();
         }
         while ((tkz.peek("done")||tkz.peek("move")||tkz.peek("relocate")||tkz.peek("collect")||tkz.peek("invest")||tkz.peek("shoot"))){
-            tkz.consume();
             return parseActionCommand();
         }
         while (tkz.peek("{")) {
-            tkz.consume();
             return parseBlockStatement();
         }
         return parseActionCommand();
@@ -72,8 +74,6 @@ public class ParserPlans implements Parser {
     }
     @Override
     public Statement parseAssignStatement() throws LexicalError, SyntaxError, ParseException {
-        String identifier;
-        Expression Expr = parseExpression();
         return null;
     }
     @Override

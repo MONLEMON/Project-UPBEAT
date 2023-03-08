@@ -1,5 +1,6 @@
 package paser;
 
+import Game.GameAction;
 import Game.Player;
 
 import java.util.HashMap;
@@ -24,7 +25,7 @@ public class WhileStatement implements Statement {
     }
 
     @Override
-    public boolean operate(HashMap<String, Integer> identifiers, LinkedList<GameAction> action, Player player) {
+    public boolean operate(HashMap<String, Integer> identifiers) {
         return false;
     }
 }
