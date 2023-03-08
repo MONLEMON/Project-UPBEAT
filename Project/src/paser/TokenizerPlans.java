@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 
 import static java.lang.Character.isDigit;
 
-class TokenizerPlans implements Tokenizer {
+public class TokenizerPlans implements Tokenizer {
     private String src, next;  private int pos;
     public TokenizerPlans(String src) throws LexicalError {
         this.src = src;  pos = 0;

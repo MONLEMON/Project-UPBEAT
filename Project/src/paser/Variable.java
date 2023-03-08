@@ -2,7 +2,7 @@ package paser;
 
 import java.util.Map;
 
-class Variable implements Expression {
+public class Variable implements Expression {
     private String name;
     public Variable(String name) {
         this.name = name;

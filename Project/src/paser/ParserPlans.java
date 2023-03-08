@@ -72,7 +72,8 @@ public class ParserPlans implements Parser {
     }
     @Override
     public Statement parseAssignStatement() throws LexicalError, SyntaxError, ParseException {
-        Expression v = parseExpression();
+        String identifier;
+        Expression Expr = parseExpression();
         return null;
     }
     @Override
@@ -108,12 +109,12 @@ public class ParserPlans implements Parser {
         while (tkz.peek("collect")) {
             tkz.consume("collect");
             Expression Expr = parseExpression();
-            Region command = Region.collect;
+            Regions command = Regions.collect;
             return new RegionCmd(command,Expr);
         }while (tkz.peek("invest")) {
             tkz.consume("invest");
             Expression Expr = parseExpression();
-            Region command = Region.invest;
+            Regions command = Regions.invest;
             return new RegionCmd(command,Expr);
         }throw new SyntaxError("Error");
 
@@ -234,11 +235,11 @@ public class ParserPlans implements Parser {
         while (tkz.peek("nearby")) {
             tkz.consume("nearby");
             Direction direction = parseDirection();
-            infoExpr command = infoExpr.nearby;
+            infocom command = infocom.nearby;
             return new InfoExpr(command,direction);
         }while (tkz.peek("opponent")) {
             tkz.consume("opponent");
-            infoExpr command = infoExpr.opponent;
+            infocom command = infocom.opponent;
             Direction direction = parseDirection();
             return new InfoExpr(command,direction);
         }throw new SyntaxError("error");
