@@ -11,9 +11,4 @@ public class RelocateCmd extends Cmd {
     RelocateCmd() {
         super(false);
     }
-
-    @Override
-    public boolean operate(HashMap<String, Integer> identifiers) {
-        return false;
-    }
 }

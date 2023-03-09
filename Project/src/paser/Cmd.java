@@ -13,10 +13,6 @@ public class Cmd implements Statement {
         this.TurnEnd = TurnEnd;
     }
 
-    @Override
-    public boolean operate(HashMap<String, Integer> identifiers) {
-        return TurnEnd;
-    }
 
     @Override
     public void prettyPrint(StringBuilder s) {

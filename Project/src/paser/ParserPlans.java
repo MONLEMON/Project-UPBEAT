@@ -15,18 +15,12 @@ public class ParserPlans implements Parser {
 
     @Override
     public Plan parse() throws LexicalError, SyntaxError, EvalError, ParseException {
-        Plan plan = parser();
+        Plan S = (Plan) parseStatement();
         if(tkz.hasNextToken()) throw new SyntaxError("Error");
-        return plan;
+        return S;
     }
 
-    public Plan parser() throws LexicalError, SyntaxError, ParseException, EvalError {
-        LinkedList<Statement> statements = new LinkedList<>();
-        while(tkz.hasNextToken()){
-            parseStatement();
-        }
-        return new Plan(statements);
-    }
+
     @Override
     public Statement parseStatement() throws LexicalError, SyntaxError, ParseException {
         while (tkz.peek("if")) {

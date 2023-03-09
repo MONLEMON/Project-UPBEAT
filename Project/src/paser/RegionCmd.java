@@ -1,11 +1,5 @@
 package paser;
 
-import Game.GameAction;
-import Game.Player;
-
-import java.util.HashMap;
-import java.util.LinkedList;
-
 public class RegionCmd extends Cmd {
     private Expression Expr;
     private Regions command;
@@ -16,8 +10,4 @@ public class RegionCmd extends Cmd {
         this.command = command;
     }
 
-    @Override
-    public boolean operate(HashMap<String, Integer> identifiers) {
-        return false;
-    }
 }

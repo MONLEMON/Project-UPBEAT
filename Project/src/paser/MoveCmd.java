@@ -13,9 +13,4 @@ public class MoveCmd extends Cmd {
         super(false);
         this.direction = direction;
     }
-
-    @Override
-    public boolean operate(HashMap<String, Integer> identifiers) {
-        return false;
-    }
 }
