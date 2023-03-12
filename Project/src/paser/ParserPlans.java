@@ -3,7 +3,6 @@ package paser;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 public class ParserPlans implements Parser {
@@ -69,16 +68,14 @@ public class ParserPlans implements Parser {
         if (tkz.peek("}")) {
             tkz.consume();
             return parseIfStatement();
-        }else{
-        throw new SyntaxError("Error");
-    }
+        }else throw new SyntaxError("Error");
     }
     public Statement parseCommand() throws LexicalError, SyntaxError, ParseException {
-        return  parseActionCommand();
+            return parseActionCommand();
     }
     @Override
     public Statement parseAssignStatement() throws LexicalError, SyntaxError, ParseException {
-        return null;
+        throw new SyntaxError("Error");
     }
     @Override
     public Statement parseActionCommand() throws LexicalError, SyntaxError, ParseException {
@@ -87,18 +84,22 @@ public class ParserPlans implements Parser {
             return new Cmd(true);
         }
         if  (tkz.peek("relocate")) {
-            tkz.consume("relocate");
+            tkz.consume();
             return new RelocateCmd();
         }
         if  (tkz.peek("move")) {
+            tkz.consume();
             return parseMoveCommand();
         }
         if  (tkz.peek("collect")) {
+            tkz.consume();
             return parseRegionCommand();
         }
         if  (tkz.peek("invest")) {
+            tkz.consume();
             return parseRegionCommand();
         }if  (tkz.peek("shoot")) {
+            tkz.consume();
             return parseAttackCommand();
         }else{
         throw new SyntaxError("Error");
@@ -124,42 +125,42 @@ public class ParserPlans implements Parser {
 
     }
     public Statement parseAttackCommand() throws LexicalError, SyntaxError, ParseException {
-        while (tkz.peek("shoot")) {
+        if (tkz.peek("shoot")) {
             tkz.consume();
             Direction direction = parseDirection();
             Expression Expr = parseExpression();
             return new ATKCmd(direction,Expr);
-        }throw new SyntaxError("Error");
+        }else throw new SyntaxError("Error");
     }
     public Direction parseDirection() throws LexicalError, SyntaxError, ParseException {
         if (tkz.peek("UP")) {
             tkz.consume();
-            Direction direction = Direction.UP;
+            Direction direction = Direction.up;
             return direction;
         }
         if (tkz.peek("UPLEFT")) {
             tkz.consume();
-            Direction direction = Direction.UPLEFT;
+            Direction direction = Direction.upleft;
             return direction;
         }
         if (tkz.peek("UPRIGHT")) {
             tkz.consume();
-            Direction direction = Direction.UPRIGHT;
+            Direction direction = Direction.upright;
             return direction;
         }
         if (tkz.peek("DOWN")) {
             tkz.consume();
-            Direction direction = Direction.DOWN;
+            Direction direction = Direction.down;
             return direction;
         }
         if (tkz.peek("DOWNRIGHT")) {
             tkz.consume();
-            Direction direction = Direction.DOWNRIGHT;
+            Direction direction = Direction.downright;
             return direction;
         }
         if (tkz.peek("DOWNLEFT")) {
             tkz.consume();
-            Direction direction = Direction.DOWNLEFT;
+            Direction direction = Direction.downleft;
             return direction;
         } else {
             throw new SyntaxError("Error");

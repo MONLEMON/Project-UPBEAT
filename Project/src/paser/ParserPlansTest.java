@@ -7,7 +7,7 @@ import java.text.ParseException;
 class ParserPlansTest {
     @Test
     public void ParserPTest() throws SyntaxError, EvalError, ParseException, LexicalError {
-        TokenizerPlans w = new TokenizerPlans("done UP");
+        TokenizerPlans w = new TokenizerPlans("done");
         ParserPlans ww = new ParserPlans(w);
         Assertions.assertEquals(8,ww.parse());
     }

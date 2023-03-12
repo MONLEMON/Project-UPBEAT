@@ -98,15 +98,15 @@ class Timecount{
     Timecount(Player name){
         this.player = name;
     }
-    void Plantime(){
-        if(player.Planrun){
-            for(RevTime()){
-
-            }
-        }else {
-
-        }
-    }
+//    void Plantime(){
+//        if(player.Planrun){
+//            for(RevTime()){
+//
+//            }
+//        }else {
+//
+//        }
+//    }
     void RevTime(){
         if(player.Revrun){
 
@@ -136,7 +136,9 @@ class Area{
 interface City extends Territory {
     int currow();
     int curcol();
-    int deposit();
+
+    boolean deposit();
+
     default int max_deposit(){
         return ConfigurationFile.max_dep;
     };
@@ -144,7 +146,9 @@ interface City extends Territory {
 class CityCenter implements City{
     private final Area area;
     private Player Owner;
+    int deposit = 0;
     private final boolean HasOwner = false;
+    int max_deposit = ConfigurationFile.max_dep;
     CityCenter(Area area){
         this.area = area;
     }
@@ -167,15 +171,23 @@ class CityCenter implements City{
     }
 
     @Override
-    public int deposit() {
+    public boolean deposit() {
         if(HasOwner){
-            return -1;
-        }else return 1;
+            return true;
+        }else return false;
     }
 }
 class CityCrew implements City{
     Area area;
     private Player Owner;
+    int deposit = 0;
+    int interest_pct;
+    int max_deposit = ConfigurationFile.max_dep;
+    boolean Checkdep(){
+        if(deposit > max_deposit()){
+           return  false;
+        }else return true;
+    }
     private final boolean HasOwner = false;
     CityCrew(Area area){
         this.area = area;
@@ -194,9 +206,9 @@ class CityCrew implements City{
         return area.y;
     }
     @Override
-    public int deposit() {
+    public boolean deposit() {
         if(HasOwner){
-            return -1;
-        }else return 1;
+            return true;
+        }else return false;
     }
 }

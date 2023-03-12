@@ -1,5 +1,5 @@
 package paser;
 
 public enum Direction {
-    UP, DOWN, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT;
+    up, down, upleft, upright, downleft, downright;
 }
