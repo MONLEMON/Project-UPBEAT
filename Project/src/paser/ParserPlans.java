@@ -1,6 +1,7 @@
 package paser;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -15,27 +16,32 @@ public class ParserPlans implements Parser {
 
     @Override
     public Plan parse() throws LexicalError, SyntaxError, EvalError, ParseException {
-        Plan S = (Plan) parseStatement();
+        Plan S = parsePlan();
         if(tkz.hasNextToken()) throw new SyntaxError("Error");
         return S;
     }
-
-
+    private Plan parsePlan() throws LexicalError, SyntaxError, ParseException {
+        ArrayList<Statement> statements = new ArrayList<>();
+        while(tkz.hasNextToken()){
+            statements.add(parseStatement());
+        }
+        return new Plan(statements);
+    }
     @Override
     public Statement parseStatement() throws LexicalError, SyntaxError, ParseException {
-        while (tkz.peek("if")) {
+        if (tkz.peek("if")) {
             return parseIfStatement();
         }
-        while (tkz.peek("while")) {
+        if (tkz.peek("while")) {
             return parseWhileStatement();
         }
-        while ((tkz.peek("done")||tkz.peek("move")||tkz.peek("relocate")||tkz.peek("collect")||tkz.peek("invest")||tkz.peek("shoot"))){
-            return parseActionCommand();
+        if ((tkz.peek("done")||tkz.peek("move")||tkz.peek("relocate")||tkz.peek("collect")||tkz.peek("invest")||tkz.peek("shoot"))){
+            return parseCommand();
         }
-        while (tkz.peek("{")) {
+        if (tkz.peek("{")) {
             return parseBlockStatement();
         }
-        return parseActionCommand();
+        return parseCommand();
     }
     @Override
     public Statement parseIfStatement() throws LexicalError, SyntaxError, ParseException {
@@ -60,11 +66,15 @@ public class ParserPlans implements Parser {
     @Override
     public Statement parseBlockStatement() throws LexicalError, SyntaxError, ParseException {
         tkz.consume("{");
-        while (tkz.peek("}")) {
+        if (tkz.peek("}")) {
             tkz.consume();
             return parseIfStatement();
-        }
+        }else{
         throw new SyntaxError("Error");
+    }
+    }
+    public Statement parseCommand() throws LexicalError, SyntaxError, ParseException {
+        return  parseActionCommand();
     }
     @Override
     public Statement parseAssignStatement() throws LexicalError, SyntaxError, ParseException {
@@ -72,27 +82,27 @@ public class ParserPlans implements Parser {
     }
     @Override
     public Statement parseActionCommand() throws LexicalError, SyntaxError, ParseException {
-        while (tkz.peek("done")) {
-            tkz.consume("done");
+        if (tkz.peek("done")) {
+            tkz.consume();
             return new Cmd(true);
         }
-        while (tkz.peek("relocate")) {
+        if  (tkz.peek("relocate")) {
             tkz.consume("relocate");
             return new RelocateCmd();
         }
-        while (tkz.peek("move")) {
+        if  (tkz.peek("move")) {
             return parseMoveCommand();
         }
-        while (tkz.peek("collect")) {
+        if  (tkz.peek("collect")) {
             return parseRegionCommand();
         }
-        while (tkz.peek("invest")) {
+        if  (tkz.peek("invest")) {
             return parseRegionCommand();
-        }while (tkz.peek("shoot")) {
+        }if  (tkz.peek("shoot")) {
             return parseAttackCommand();
-        }
+        }else{
         throw new SyntaxError("Error");
-
+    }
     }
     public Statement parseMoveCommand() throws LexicalError, SyntaxError, ParseException {
         tkz.consume("move");
@@ -100,53 +110,65 @@ public class ParserPlans implements Parser {
         return new MoveCmd(direction);
     }
     public Statement parseRegionCommand() throws LexicalError, SyntaxError, ParseException {
-        while (tkz.peek("collect")) {
-            tkz.consume("collect");
+        if (tkz.peek("collect")) {
+            tkz.consume();
             Expression Expr = parseExpression();
             Regions command = Regions.collect;
             return new RegionCmd(command,Expr);
-        }while (tkz.peek("invest")) {
-            tkz.consume("invest");
+        }if (tkz.peek("invest")) {
+            tkz.consume();
             Expression Expr = parseExpression();
             Regions command = Regions.invest;
             return new RegionCmd(command,Expr);
-        }throw new SyntaxError("Error");
+        }else throw new SyntaxError("Error");
 
     }
     public Statement parseAttackCommand() throws LexicalError, SyntaxError, ParseException {
         while (tkz.peek("shoot")) {
-            tkz.consume("shoot");
+            tkz.consume();
             Direction direction = parseDirection();
             Expression Expr = parseExpression();
             return new ATKCmd(direction,Expr);
         }throw new SyntaxError("Error");
     }
     public Direction parseDirection() throws LexicalError, SyntaxError, ParseException {
-        while (tkz.peek("UP")) {
-            tkz.consume("UP");
+        if (tkz.peek("UP")) {
+            tkz.consume();
             Direction direction = Direction.UP;
             return direction;
-        }while (tkz.peek("UPLEFT")) {
-            tkz.consume("UPLEFT");
+        }
+        if (tkz.peek("UPLEFT")) {
+            tkz.consume();
             Direction direction = Direction.UPLEFT;
             return direction;
-        }while (tkz.peek("UPRIGHT")) {
-            tkz.consume("UPRIGHT");
+        }
+        if (tkz.peek("UPRIGHT")) {
+            tkz.consume();
             Direction direction = Direction.UPRIGHT;
             return direction;
-        }while (tkz.peek("DOWN")) {
-            tkz.consume("DOWN");
+        }
+        if (tkz.peek("DOWN")) {
+            tkz.consume();
             Direction direction = Direction.DOWN;
             return direction;
-        }while (tkz.peek("DOWNRIGHT")) {
-            tkz.consume("DOWNRIGHT");
+        }
+        if (tkz.peek("DOWNRIGHT")) {
+            tkz.consume();
             Direction direction = Direction.DOWNRIGHT;
             return direction;
-        }while (tkz.peek("DOWNLEFT")) {
-            tkz.consume("DOWNLEFT");
+        }
+        if (tkz.peek("DOWNLEFT")) {
+            tkz.consume();
             Direction direction = Direction.DOWNLEFT;
             return direction;
-        }throw new SyntaxError("Error");
+        } else {
+            throw new SyntaxError("Error");
+        }
+    }
+    public double parseExpr() throws LexicalError, SyntaxError, ParseException, EvalError {
+        Expression v = parseExpression();
+        if(tkz.hasNextToken()) throw new SyntaxError("Can't do this");
+        return v.eval(Cal);
     }
     @Override
     public Expression parseExpression() throws SyntaxError, LexicalError, ParseException {
@@ -155,13 +177,13 @@ public class ParserPlans implements Parser {
         while (tkz.peek("+")) {
             tkz.consume();
             v = new
-                    BinaryArithExpr(v, "+", parseFactor());
+                    BinaryArithExpr(v, "+", parseTerm());
         }
 
         while (tkz.peek("-")) {
             tkz.consume();
             v = new
-                    BinaryArithExpr(v, "-", parseFactor());
+                    BinaryArithExpr(v, "-", parseTerm());
         }
         Stb.setLength(0);
         v.prettyPrint(Stb);
@@ -208,9 +230,9 @@ public class ParserPlans implements Parser {
             v = new IntLit(Integer.parseInt(tkz.consume()));
             Stb.setLength(0);
             v.prettyPrint(Stb);
-            return v ;
-        }if (tkz.peek().matches("[a-zA-Z]")) {
-            v =  new Variable(tkz.consume());
+            return v;
+        } else if (tkz.peek().matches("[a-zA-Z]")) {
+            v = new Variable(tkz.consume());
             return v;
         }else if(tkz.peek("(")){
             tkz.consume("(");
@@ -219,24 +241,24 @@ public class ParserPlans implements Parser {
             v.prettyPrint(Stb);
             tkz.consume(")");
             return v;
+        }else {
+            Stb.setLength(0);
+            v.prettyPrint(Stb);
+            return v;
         }
-        Stb.setLength(0);
-        v.prettyPrint(Stb);
-        return v;
     }
-    @Override
     public  Expression parseInfoExpression() throws LexicalError, SyntaxError, ParseException {
-        while (tkz.peek("nearby")) {
-            tkz.consume("nearby");
+        if (tkz.peek("nearby")) {
+            tkz.consume();
             Direction direction = parseDirection();
             infocom command = infocom.nearby;
             return new InfoExpr(command,direction);
-        }while (tkz.peek("opponent")) {
-            tkz.consume("opponent");
+        }if (tkz.peek("opponent")) {
+            tkz.consume();
             infocom command = infocom.opponent;
             Direction direction = parseDirection();
             return new InfoExpr(command,direction);
-        }throw new SyntaxError("error");
+        }else{throw new SyntaxError("error");}
     }
     private boolean isNumber(String s) {
         char[] chars = s.toCharArray();

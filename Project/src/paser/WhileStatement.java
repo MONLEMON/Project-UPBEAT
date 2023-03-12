@@ -24,8 +24,4 @@ public class WhileStatement implements Statement {
         return new char[0];
     }
 
-    @Override
-    public boolean operate(HashMap<String, Integer> identifiers) {
-        return false;
-    }
 }

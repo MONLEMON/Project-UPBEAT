@@ -1,6 +1,22 @@
 package Game;
 
+import java.util.ArrayList;
+
 public class Player {
-    ConstructionPlan plan;
-    static Player name;
+    private String name;
+    private ConstructionPlan plan;
+    private CityCenter CityCenter;
+    private CityCrew CityCrew;
+    int money = ConfigurationFile.init_budget;
+    ArrayList<City> AllOwner = new ArrayList<City>();
+    Player (String name){
+        this.name = name;
+    }
+    ArrayList CityOwner(){
+        return AllOwner;
+    }
+    int budget(){
+        return money;
+    }
+
 }

@@ -1,7 +1,5 @@
 package paser;
 
-
-
 import java.util.HashMap;
 
 public class IfStatement implements Statement {

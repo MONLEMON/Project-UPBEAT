@@ -1,11 +1,12 @@
 package paser;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Plan implements Node {
-    LinkedList<Statement> Statement;
+    ArrayList<Statement> Statement;
 
-    public Plan(LinkedList<Statement> Statement) {
+    public Plan(ArrayList<Statement> Statement) {
         this.Statement =Statement;
     }
 
