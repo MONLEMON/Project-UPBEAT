@@ -7,6 +7,8 @@ public class Player {
     private ConstructionPlan plan;
     private CityCenter CityCenter;
     private CityCrew CityCrew;
+    boolean Planrun = false;
+    boolean Revrun = false;
     int money = ConfigurationFile.init_budget;
     ArrayList<City> AllOwner = new ArrayList<City>();
     Player (String name){

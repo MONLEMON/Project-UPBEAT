@@ -90,11 +90,29 @@ class ConstructionPlan{
 class Timecount{
     private int Plan_min = ConfigurationFile.init_plan_min;
     private int Plan_sec = ConfigurationFile.init_plan_sec;
+    private Player player;
     int Rev_min = ConfigurationFile.plan_rev_min;
     int Rev_sec = ConfigurationFile.plan_rev_sec;
-    void Plantime(){
-        for()
+    int Plan_time = (Plan_min*60)+Plan_sec;
+    int Rev_time = (Rev_min*60)+Rev_sec;
+    Timecount(Player name){
+        this.player = name;
     }
+    void Plantime(){
+        if(player.Planrun){
+            for(RevTime()){
+
+            }
+        }else {
+
+        }
+    }
+    void RevTime(){
+        if(player.Revrun){
+
+        }
+    }
+
 }
 class Board {
     Board[][] Board;
