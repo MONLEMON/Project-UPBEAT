@@ -5,6 +5,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+//        Plan → Statement+
+//        Statement → Command | BlockStatement | IfStatement | WhileStatement
+//        Command → AssignmentStatement | ActionCommand
+//        AssignmentStatement → <identifier> = Expression
+//        ActionCommand → done | relocate | MoveCommand | RegionCommand | AttackCommand
+//        MoveCommand → move Direction
+//        RegionCommand → invest Expression | collect Expression
+//        AttackCommand → shoot Direction Expression
+//        Direction → up | down | upleft | upright | downleft | downright
+//        BlockStatement → { Statement* }
+//        IfStatement → if ( Expression ) then Statement else Statement
+//        WhileStatement → while ( Expression ) Statement
+//        Expression → Expression + Term | Expression - Term | Term
+//        Term → Term * Factor | Term / Factor | Term % Factor | Factor
+//        Factor → Power ^ Factor | Power
+//        Power → <number> | <identifier> | ( Expression ) | InfoExpression
+//        InfoExpression → opponent | nearby Direction
 public class ParserPlans implements Parser {
     StringBuilder Stb = new StringBuilder();
     private Tokenizer tkz;
@@ -15,9 +32,16 @@ public class ParserPlans implements Parser {
 
     @Override
     public Plan parse() throws LexicalError, SyntaxError, EvalError, ParseException {
-        Plan S = (Plan) parseStatement();
+        Plan S = parsePlan();
         if(tkz.hasNextToken()) throw new SyntaxError("Error");
         return S;
+    }
+    private Plan parsePlan() throws LexicalError, SyntaxError, ParseException {
+        ArrayList<Statement> statements = new ArrayList<>();
+        while(tkz.hasNextToken()){
+            statements.add(parseStatement());
+        }
+        return new Plan(statements);
     }
 
     @Override
