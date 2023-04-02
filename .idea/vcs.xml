@@ -2,5 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Front-Upbeat/frontupbeat" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/UPBEAT--FRONT/frontupbeat" vcs="Git" />
   </component>
 </project>
