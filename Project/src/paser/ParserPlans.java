@@ -36,7 +36,7 @@ public class ParserPlans implements Parser {
         if(tkz.hasNextToken()) throw new SyntaxError("Error");
         return S;
     }
-    private Plan parsePlan() throws LexicalError, SyntaxError, ParseException {
+    public Plan parsePlan() throws LexicalError, SyntaxError, ParseException {
         ArrayList<Statement> statements = new ArrayList<>();
         while(tkz.hasNextToken()){
             statements.add(parseStatement());
@@ -244,30 +244,15 @@ public class ParserPlans implements Parser {
     }
     @Override
     public Expression parsePower() throws SyntaxError, LexicalError, ParseException {
-        Expression v = parseInfoExpression();
         if (isNumber((tkz.peek()))) {
-            v = new IntLit(Integer.parseInt(tkz.consume()));
+            Expression v = new IntLit(Integer.parseInt(tkz.consume()));
             Stb.setLength(0);
             v.prettyPrint(Stb);
             return v;
         } else if (tkz.peek().matches("[a-zA-Z]")) {
-            v = new Variable(tkz.consume());
+            Expression v = new Variable(tkz.consume());
             return v;
-        }else if(tkz.peek("(")){
-            tkz.consume("(");
-            v = parseExpression();
-            Stb.setLength(0);
-            v.prettyPrint(Stb);
-            tkz.consume(")");
-            return v;
-        }else {
-            Stb.setLength(0);
-            v.prettyPrint(Stb);
-            return v;
-        }
-    }
-    public  Expression parseInfoExpression() throws LexicalError, SyntaxError, ParseException {
-        if (tkz.peek("nearby")) {
+        }if (tkz.peek("nearby")) {
             tkz.consume();
             Direction direction = parseDirection();
             infocom command = infocom.nearby;
@@ -277,8 +262,28 @@ public class ParserPlans implements Parser {
             infocom command = infocom.opponent;
             Direction direction = parseDirection();
             return new InfoExpr(command,direction);
-        }else{throw new SyntaxError("error");}
+        }else{
+            tkz.consume("(");
+            Expression v = parseExpression();
+            Stb.setLength(0);
+            v.prettyPrint(Stb);
+            tkz.consume(")");
+            return v;
     }
+    }
+//    public  Expression parseInfoExpression() throws LexicalError, SyntaxError, ParseException {
+//        if (tkz.peek("nearby")) {
+//            tkz.consume();
+//            Direction direction = parseDirection();
+//            infocom command = infocom.nearby;
+//            return new InfoExpr(command,direction);
+//        }if (tkz.peek("opponent")) {
+//            tkz.consume();
+//            infocom command = infocom.opponent;
+//            Direction direction = parseDirection();
+//            return new InfoExpr(command,direction);
+//        }else{throw new SyntaxError("error");}
+//    }
     private boolean isNumber(String s) {
         char[] chars = s.toCharArray();
         boolean pointSeen = false;

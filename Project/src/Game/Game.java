@@ -181,7 +181,7 @@ class CityCrew implements City{
     Area area;
     private Player Owner;
     int deposit = 0;
-    int interest_pct;
+    int interest_pct = ConfigurationFile.interest_pct;
     int max_deposit = ConfigurationFile.max_dep;
     boolean Checkdep(){
         if(deposit > max_deposit()){
