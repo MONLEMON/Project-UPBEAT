@@ -9,7 +9,6 @@ public class Cmd implements Statement {
     public void prettyPrint(StringBuilder s) {
         s.append("done");
     }
-
     @Override
     public char[] prettyPrint() {
         return new char[0];
