@@ -53,12 +53,12 @@ public class ParserPlans implements Parser {
             return parseWhileStatement();
         }
         if ((tkz.peek("done")||tkz.peek("move")||tkz.peek("relocate")||tkz.peek("collect")||tkz.peek("invest")||tkz.peek("shoot"))){
-            return parseCommand();
+            return parseActionCommand();
         }
         if (tkz.peek("{")) {
             return parseBlockStatement();
         }
-        return parseCommand();
+        return parseActionCommand();
     }
     @Override
     public Statement parseIfStatement() throws LexicalError, SyntaxError, ParseException {
@@ -88,9 +88,6 @@ public class ParserPlans implements Parser {
             return parseIfStatement();
         }else throw new SyntaxError("Error");
     }
-    public Statement parseCommand() throws LexicalError, SyntaxError, ParseException {
-            return parseActionCommand();
-    }
     @Override
     public Statement parseAssignStatement() throws LexicalError, SyntaxError, ParseException {
         throw new SyntaxError("Error");
@@ -106,18 +103,14 @@ public class ParserPlans implements Parser {
             return new RelocateCmd();
         }
         if  (tkz.peek("move")) {
-            tkz.consume();
             return parseMoveCommand();
         }
         if  (tkz.peek("collect")) {
-            tkz.consume();
             return parseRegionCommand();
         }
         if  (tkz.peek("invest")) {
-            tkz.consume();
             return parseRegionCommand();
         }if  (tkz.peek("shoot")) {
-            tkz.consume();
             return parseAttackCommand();
         }else{
         throw new SyntaxError("Error");
@@ -271,19 +264,6 @@ public class ParserPlans implements Parser {
             return v;
     }
     }
-//    public  Expression parseInfoExpression() throws LexicalError, SyntaxError, ParseException {
-//        if (tkz.peek("nearby")) {
-//            tkz.consume();
-//            Direction direction = parseDirection();
-//            infocom command = infocom.nearby;
-//            return new InfoExpr(command,direction);
-//        }if (tkz.peek("opponent")) {
-//            tkz.consume();
-//            infocom command = infocom.opponent;
-//            Direction direction = parseDirection();
-//            return new InfoExpr(command,direction);
-//        }else{throw new SyntaxError("error");}
-//    }
     private boolean isNumber(String s) {
         char[] chars = s.toCharArray();
         boolean pointSeen = false;
