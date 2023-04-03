@@ -1,0 +1,69 @@
+.app {
+  background-color: #000000;
+  height: 100%;
+}
+.bg {
+  background-image: url("C:\Users\copte\Desktop\upbeatreact\public\images\background.png");
+  height: 100vh;
+  margin-top: 0px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.headtext {
+  font-size: 175px;
+  font-family: "Playfair Display", serif;
+  font-style: inherit;
+  font-weight: bold;
+  position: relative;
+  top: 227px;
+  margin-left: 600px;
+  background: linear-gradient(
+    45deg,
+    hwb(64 62% 0%),
+    #b8faa6,
+    #09fa95,
+    #a4f8f9,
+    #e1e4eb
+  );
+  background-size: 40%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: gradient 5s infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.text {
+  margin-top: 410px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  color: rgb(255, 255, 255);
+  animation: blink-animation 1s steps(10, start) infinite;
+  -webkit-animation: blink-animation 1s steps(10, start) infinite;
+}
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+.textlink {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+}
