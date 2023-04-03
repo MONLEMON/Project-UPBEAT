@@ -4,5 +4,6 @@
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Front-Upbeat/frontupbeat" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/UPBEAT--FRONT/frontupbeat" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/upbeatreact" vcs="Git" />
   </component>
 </project>
